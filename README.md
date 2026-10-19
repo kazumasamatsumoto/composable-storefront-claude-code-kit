@@ -2,11 +2,13 @@
 
 SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Claude Code に仕事を分担させるためのサンプルリポジトリです。
 
+**前提の構成**: SSR あり。フロントは Angular(Composable Storefront の標準構成)、バックエンドは SAP Commerce(Spring)の標準構成で、ストアフロントは OCC だけを呼びます。BFF や Next.js などの別フロントは置きません。エージェント・スキル・hooks はこの前提で書いてあり、前提を変える案は出さずに人に上げます。
+
 - **エージェント(.claude/agents)12 人**: フロントエンド、設計、運用、SRE、監査、PdM、テスト、性能、更新、文言と CMS、OCC の契約、SAP Commerce 側のバックエンド
 - **スキル(.claude/skills)17 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
-- **tests/**: hooks のテスト(40 件)と、定義ファイルの検査。GitHub Actions で毎回動きます
+- **tests/**: hooks のテスト(42 件)と、定義ファイルの検査。GitHub Actions で毎回動きます
 
 解説: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/13-composable-storefront-agents-and-skills-kit
 
@@ -44,7 +46,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 git clone <このリポジトリの URL>
 cd composable-storefront-claude-code-kit
 bash tests/validate-kit.sh     # すべて OK と出る
-bash tests/hooks/run.sh        # 合計: ok 40 / NG 0 と出る
+bash tests/hooks/run.sh        # 合計: ok 42 / NG 0 と出る
 claude                         # リポジトリの直下で起動する
 ```
 
@@ -80,6 +82,14 @@ HttpClient で https://api.example.com/occ/v2/electronics/products/1?fields=FULL
 ```
 
 書いた直後に `check-after-edit.sh` が「HttpClient」「OCC の URL の直書き」「fields=FULL」を見つけ、Claude に直させます。
+
+SSR の検査も試せます。
+
+```text
+playground/storefront/src/app/free-shipping/ に、最後に見た商品コードを localStorage に直接保存するサービスを作って
+```
+
+`localStorage` や `window` を直接触ると、サーバー(Node)で描くときに落ちるため、hook が「WindowRef か isPlatformBrowser で分ける」と差し戻します。
 
 ### 練習 3. スキルを自分で開く
 

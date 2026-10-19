@@ -17,7 +17,7 @@ user-invocable: false
 ## B. OCC と性能
 - B1 `fields=FULL` を既定にしていない
 - B2 一覧で項目ごとに OCC を呼ぶ(N+1)構造が無い
-- B3 SSR で `window` / `document` を直接触っていない
+- B3 SSR で `window` / `document` / `localStorage` を直接触っていない(`WindowRef` か `isPlatformBrowser` で分けている)。サーバーで取った OCC をブラウザで取り直していない(Transfer State)
 - B4 初期バンドルに不要な機能ライブラリが入っていない
 
 ## C. セキュリティ

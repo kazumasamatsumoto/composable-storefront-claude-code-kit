@@ -43,6 +43,8 @@ expect 0 protect-files.sh "書かせる: ストアフロント"    "$(file_json 
 # --- check-after-edit.sh(PostToolUse: Edit / Write)
 expect 2 check-after-edit.sh "直させる: HttpClient、OCC 直書き、FULL" "$(file_json Edit "$F/bad.component.ts")"
 expect 0 check-after-edit.sh "通す: Facade 経由のコンポーネント"     "$(file_json Edit "$F/good.component.ts")"
+expect 2 check-after-edit.sh "直させる: SSR で window / localStorage を直接"   "$(file_json Edit "$F/ssr-bad.service.ts")"
+expect 0 check-after-edit.sh "通す: WindowRef で分けた SSR 対応"           "$(file_json Edit "$F/ssr-good.service.ts")"
 expect 2 check-after-edit.sh "直させる: typecode 5000"               "$(file_json Edit "$F/bad-items.xml")"
 expect 0 check-after-edit.sh "通す: typecode 25001"                  "$(file_json Edit "$F/good-items.xml")"
 expect 2 check-after-edit.sh "直させる: unique=true の無い ImpEx"    "$(file_json Edit "$F/bad.impex")"

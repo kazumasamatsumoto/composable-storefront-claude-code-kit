@@ -14,6 +14,15 @@ case "$path" in
     case "$path" in
       *.component.ts) grep -nE '\bHttpClient\b' "$path" >/dev/null && problems+=("コンポーネントで HttpClient を使っている。Facade(Query / Command)経由にする") ;;
     esac
+    # SSR: サーバー(Node)には window / document が無い。WindowRef か isPlatformBrowser で分けていないファイルで直接触っていたら止める
+    case "$path" in
+      *.spec.ts|*server.ts) ;;
+      *.ts)
+        if grep -nE '(^|[^.A-Za-z0-9_$])(window|document|localStorage|sessionStorage|navigator)\.' "$path" >/dev/null \
+           && ! grep -qE 'WindowRef|isPlatformBrowser|isPlatformServer' "$path"; then
+          problems+=("window / document / localStorage / navigator を直接触っている。SSR で落ちるので WindowRef(@spartacus/core)か isPlatformBrowser で分ける")
+        fi ;;
+    esac
     # リンタ(プロジェクトに eslint があるときだけ)
     if [ -x "${CLAUDE_PROJECT_DIR:-.}/node_modules/.bin/eslint" ]; then
       out=$("${CLAUDE_PROJECT_DIR:-.}/node_modules/.bin/eslint" --no-warn-ignored "$path" 2>&1) || problems+=("eslint のエラー:\n$out")

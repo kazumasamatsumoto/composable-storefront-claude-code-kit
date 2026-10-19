@@ -9,5 +9,6 @@ if [ -d core-customize ] || [ -d hybris ] || grep -q commerceSuiteVersion manife
 fi
 echo "リポジトリの種類: $kind"
 echo "現在のブランチ: $branch"
+echo "この案件の前提: SSR あり。フロントは Angular(Composable Storefront)、バックエンドは SAP Commerce(Spring)の標準構成。BFF や別フロントは置かない。"
 echo "このプロジェクトの hooks: 危険なコマンド(ant initialize、rm -rf、git push --force など)と、秘密・標準ソース・dist への書き込みは hook で止まる。止まったら手順を書いて人に依頼する。"
 exit 0

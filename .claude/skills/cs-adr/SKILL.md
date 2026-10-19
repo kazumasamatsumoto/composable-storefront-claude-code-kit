@@ -42,7 +42,7 @@ description: Composable Storefront の設計上の決定を ADR(Architecture Dec
 
 ## よくある決定の題名
 - CMS で持つかコードで持つか(機能名)
-- SSR の対象ページ
+- SSR で描く範囲とキャッシュしないページ
 - 機能ライブラリの採否(名前)
 - OCC の拡張か外部 API か(データ名)
-- Next.js など別フロントの併用
+- (前提の変更は ADR にせず人に上げる: CSR への切り替え、BFF・別フロントの追加)

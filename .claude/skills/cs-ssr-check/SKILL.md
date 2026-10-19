@@ -20,7 +20,7 @@ allowed-tools: Read, Grep, Glob, Bash(yarn build:ssr *), Bash(yarn serve:ssr *),
 - チェック: 初期表示に必要な OCC 呼び出しが最小限
 
 ## 4. SSR 固有の落とし穴
-- `window` や `document` を直接触っていないか(SSR では存在しない)。`isPlatformBrowser` で分岐する
+- `window` や `document` を直接触っていないか(SSR では存在しない)。Spartacus の `WindowRef`(`isBrowser()`、`nativeWindow`)か `isPlatformBrowser` で分岐する
 - 時間のかかる呼び出しに SSR のタイムアウトが効いているか。失敗時は CSR にフォールバックする設定か
 - ログイン後やカートなど利用者ごとのページを SSR でキャッシュしていないか
 
