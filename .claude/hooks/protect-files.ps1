@@ -2,7 +2,8 @@
 # パスの \ は / にそろえてから比べる。-like は大文字と小文字を区別しない(Windows のパスと同じ)。
 [Console]::InputEncoding  = New-Object System.Text.UTF8Encoding $false
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
-try { $in = [Console]::In.ReadToEnd() | ConvertFrom-Json } catch { exit 0 }
+$raw = [Console]::In.ReadToEnd(); if ($env:HOOK_DEBUG) { [Console]::Error.WriteLine('raw=[' + $raw + '] len=' + $raw.Length) }
+try { $in = $raw | ConvertFrom-Json } catch { if ($env:HOOK_DEBUG) { [Console]::Error.WriteLine('json error: ' + $_) }; exit 0 }
 $tool = [string]$in.tool_name
 $path = [string]$in.tool_input.file_path
 if (-not $path) { exit 0 }

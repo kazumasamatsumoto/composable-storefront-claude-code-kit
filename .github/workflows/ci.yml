@@ -18,6 +18,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: debug
+        shell: powershell
+        continue-on-error: true
+        run: |
+          $env:HOOK_DEBUG = '1'
+          '{"tool_name":"Read","tool_input":{"file_path":"C:/x/.env"}}' | Out-File -Encoding ascii in.json
+          cmd /c "powershell -NoProfile -ExecutionPolicy Bypass -File .claude\hooks\protect-files.ps1 < in.json"
+          "exit=$LASTEXITCODE"
       - name: hooks(PowerShell 版)を Windows PowerShell 5.1 で確かめる
         shell: powershell
         run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1

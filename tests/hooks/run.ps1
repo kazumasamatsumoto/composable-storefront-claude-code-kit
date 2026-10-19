@@ -17,10 +17,26 @@ foreach ($c in $cases) {
   # {ROOT} と {F} を実際のパスに(JSON の文字列の中なので \ は \\ にする)
   $json = $json.Replace('{ROOT}', $root.Replace('\', '\\')).Replace('{F}', $fix.Replace('\', '\\'))
   $script = Join-Path $hooks ($c.hook + '.ps1')
-  $null = $json | & $exe -NoProfile -ExecutionPolicy Bypass -File $script 2>&1
-  $got = $LASTEXITCODE
+  # Claude Code と同じく、標準入力に UTF-8 のバイト列を書いて閉じる(PowerShell のパイプの文字コード変換を通さない)
+  $si = New-Object System.Diagnostics.ProcessStartInfo
+  $si.FileName = $exe
+  $si.Arguments = '-NoProfile -ExecutionPolicy Bypass -File "' + $script + '"'
+  $si.UseShellExecute = $false
+  $si.RedirectStandardInput = $true; $si.RedirectStandardOutput = $true; $si.RedirectStandardError = $true
+  $si.StandardErrorEncoding = [Text.Encoding]::UTF8
+  $proc = [Diagnostics.Process]::Start($si)
+  $bytes = [Text.Encoding]::UTF8.GetBytes($json)
+  $proc.StandardInput.BaseStream.Write($bytes, 0, $bytes.Length)
+  $proc.StandardInput.Close()
+  $errTask = $proc.StandardError.ReadToEndAsync()
+  $null = $proc.StandardOutput.ReadToEnd()
+  $proc.WaitForExit()
+  $got = $proc.ExitCode
   if ($got -eq $c.expect) { $pass++; [Console]::Out.WriteLine(('ok   {0,-24} {1}' -f $c.hook, $c.label)) }
-  else { $fail++; [Console]::Out.WriteLine(('NG   {0,-24} {1}(期待 {2}、実際 {3})' -f $c.hook, $c.label, $c.expect, $got)) }
+  else {
+    $fail++; [Console]::Out.WriteLine(('NG   {0,-24} {1}(期待 {2}、実際 {3})' -f $c.hook, $c.label, $c.expect, $got))
+    if ($errTask.Result) { [Console]::Out.WriteLine('     stderr: ' + $errTask.Result.Trim()) }
+  }
 }
 
 [Console]::Out.WriteLine("合計: ok $pass / NG $fail  ($($PSVersionTable.PSEdition) $($PSVersionTable.PSVersion))")
