@@ -20,7 +20,7 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 - push、プルリクエスト、コミットは人がする。
 
 ## コマンド
-- hooks のテスト: bash tests/hooks/run.sh
+- hooks のテスト: bash tests/hooks/run.sh(PowerShell 版は powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1)。.sh と .ps1 は同じ規則に保ち、ケースは tests/hooks/cases.json に足す
 - 定義の検査: bash tests/validate-kit.sh
 - (実案件の例)開発: yarn start / テスト: yarn test / SSR ビルド: yarn build:ssr / E2E: yarn e2e
 

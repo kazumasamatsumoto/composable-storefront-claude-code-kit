@@ -49,4 +49,20 @@ while read -r cmd; do
 done < <(jq -r '.hooks[][].hooks[].command' "$C/settings.json")
 echo "hooks: $(jq '[.hooks[][].hooks[]] | length' "$C/settings.json") 本"
 
+# --- hooks の PowerShell 版(settings.powershell.json。Windows で Git Bash が無いときに settings.json と置き換える)
+P="$C/settings.powershell.json"
+jq empty "$P" 2>/dev/null || ng "settings.powershell.json が JSON として読めない"
+[ "$(jq -c '[.hooks | to_entries[] | .key as $e | .value[] | "\($e):\(.matcher // "")"]' "$C/settings.json")" = \
+  "$(jq -c '[.hooks | to_entries[] | .key as $e | .value[] | "\($e):\(.matcher // "")"]' "$P")" ] || ng "settings.json と settings.powershell.json でイベントや matcher が違う"
+while read -r f; do
+  p=${f//\$\{CLAUDE_PROJECT_DIR\}/$ROOT}
+  [ -f "$p" ] || { ng "settings.powershell.json の $f が無い"; continue; }
+  [ "$(head -c 3 "$p" | od -An -tx1 | tr -d ' ')" = "efbbbf" ] || ng "$p が BOM 付き UTF-8 でない(Windows PowerShell 5.1 が日本語を読み違える)"
+  [ -f "${p%.ps1}.sh" ] || ng "$p に対応する bash 版が無い"
+  if command -v pwsh >/dev/null; then
+    pwsh -NoProfile -Command "\$e=\$null; [void][System.Management.Automation.Language.Parser]::ParseFile('$p',[ref]\$null,[ref]\$e); if (\$e) { \$e | % { \$_.Message }; exit 1 }" || ng "$p に文法エラー"
+  fi
+done < <(jq -r '.hooks[][].hooks[] | .args[-1]' "$P")
+echo "hooks(PowerShell 版): $(jq '[.hooks[][].hooks[]] | length' "$P") 本$(command -v pwsh >/dev/null || echo '(pwsh が無いので文法検査は省略)')"
+
 [ "$err" = 0 ] && echo "すべて OK" || { echo "NG が $err 件"; exit 1; }

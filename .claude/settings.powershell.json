@@ -1,0 +1,74 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/session-context.ps1"
+            ]
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/block-dangerous-bash.ps1"
+            ]
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/protect-files.ps1"
+            ]
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe",
+            "args": [
+              "-NoProfile",
+              "-ExecutionPolicy",
+              "Bypass",
+              "-File",
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/check-after-edit.ps1"
+            ],
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

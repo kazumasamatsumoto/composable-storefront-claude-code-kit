@@ -3,6 +3,7 @@
 # ツールはもう実行済み。問題があれば終了コード 2 で stderr を Claude に見せ、直させる。
 input=$(cat)
 path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty')
+path=${path//\\//}  # Windows(Git Bash)の C:\a\b を C:/a/b にそろえる
 [ -z "$path" ] || [ ! -f "$path" ] && exit 0
 
 problems=()

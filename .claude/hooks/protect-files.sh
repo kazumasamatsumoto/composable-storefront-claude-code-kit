@@ -3,6 +3,7 @@
 input=$(cat)
 tool=$(printf '%s' "$input" | jq -r '.tool_name // empty')
 path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty')
+path=${path//\\//}  # Windows(Git Bash)の C:\a\b を C:/a/b にそろえる
 [ -z "$path" ] && exit 0
 
 block() { echo "hook で禁止: $1($path)" >&2; exit 2; }

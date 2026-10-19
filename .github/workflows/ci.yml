@@ -9,5 +9,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: エージェント・スキル・hooks の定義を確かめる
         run: bash tests/validate-kit.sh
-      - name: hooks に入力を与えて、止める・通すを確かめる
+      - name: hooks(bash 版)に入力を与えて、止める・通すを確かめる
+        run: bash tests/hooks/run.sh
+      - name: hooks(PowerShell 版)を PowerShell 7 で確かめる
+        shell: pwsh
+        run: ./tests/hooks/run.ps1
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: hooks(PowerShell 版)を Windows PowerShell 5.1 で確かめる
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1
+      - name: hooks(PowerShell 版)を PowerShell 7 で確かめる
+        shell: pwsh
+        run: pwsh -NoProfile -File tests\hooks\run.ps1
+      - name: hooks(bash 版)を Git Bash で確かめる
+        shell: bash
         run: bash tests/hooks/run.sh

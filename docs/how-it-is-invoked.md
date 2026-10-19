@@ -18,7 +18,7 @@ sequenceDiagram
   U->>M: /スキル名、または「cs-backend に委任: …」、または @agent-cs-backend
   M->>A: 委任のメッセージだけを渡す(本会話の履歴は渡らない)
   Note over A: 起動時に skills: の手順書を読む
-  A->>H: PreToolUse: Bash の前に block-dangerous-bash.sh、Read / Edit / Write の前に protect-files.sh
+  A->>H: PreToolUse: Bash / PowerShell の前に block-dangerous-bash.sh、Read / Edit / Write の前に protect-files.sh
   H-->>A: 終了コード 2 なら止める。0 なら通す
   A->>H: PostToolUse: Edit / Write が成功した後に check-after-edit.sh
   H-->>A: 違反があれば終了コード 2 で知らせ、その場で直させる
@@ -53,8 +53,10 @@ sequenceDiagram
 | イベント | 動くとき | hook | 止められるか |
 |---|---|---|---|
 | `SessionStart` | 起動、再開、`/clear`、圧縮 | `session-context.sh` | 止めない。標準出力が Claude の文脈に入る |
-| `PreToolUse`(Bash) | コマンドを実行する直前 | `block-dangerous-bash.sh` | 止められる(終了コード 2) |
+| `PreToolUse`(Bash / PowerShell) | コマンドを実行する直前 | `block-dangerous-bash.sh` | 止められる(終了コード 2) |
 | `PreToolUse`(Read / Edit / Write) | ファイルを読む・書く直前 | `protect-files.sh` | 止められる |
 | `PostToolUse`(Edit / Write) | 編集が成功した直後 | `check-after-edit.sh` | もう書いた後なので止めない。終了コード 2 の文が Claude に見え、直させる |
 
 hooks はサブエージェントの中のツール呼び出しでも同じように動きます。あなたが呼ぶことはありません。
+
+Windows で Git Bash が無い場合は、`.claude/settings.powershell.json` を `settings.json` にすると、同じ名前の `.ps1`(PowerShell 版)が同じ場面で動きます。止める規則も終了コードも同じです。
