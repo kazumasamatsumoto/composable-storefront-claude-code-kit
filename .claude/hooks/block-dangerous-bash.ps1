@@ -3,7 +3,14 @@
 # Windows PowerShell 5.1 と PowerShell 7 の両方で動く書き方にしている(?? や三項演算子を使わない)。
 [Console]::InputEncoding  = New-Object System.Text.UTF8Encoding $false
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding $false
-try { $in = [Console]::In.ReadToEnd() | ConvertFrom-Json } catch { exit 0 }
+$raw = [Console]::In.ReadToEnd()
+$raw = $raw.TrimStart([char]0xFEFF)  # 先頭に BOM が付いて届いても読めるように
+try { $in = $raw | ConvertFrom-Json } catch { $in = $null }
+if ($null -eq $in) {
+  # 読めないまま通すと何も守れないので、止めて知らせる(fail-closed)
+  [Console]::Error.WriteLine("hook の入力(JSON)を読めませんでした。hook の設定を確かめてください。(長さ $($raw.Length))")
+  exit 2
+}
 $cmd = [string]$in.tool_input.command
 if (-not $cmd) { exit 0 }
 

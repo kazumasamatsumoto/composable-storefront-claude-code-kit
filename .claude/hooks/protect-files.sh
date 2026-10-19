@@ -1,5 +1,7 @@
 #!/bin/bash
 # PreToolUse(Read|Edit|Write): 読ませない・書かせないファイルを止める。
+# jq が無いと入力を読めず、何も守れないまま通ってしまうので、止めて知らせる(fail-closed)
+command -v jq >/dev/null 2>&1 || { echo "hook に jq が必要です(macOS: brew install jq、Windows の Git Bash: winget install jqlang.jq)。入れるまでこの操作は止めます" >&2; exit 2; }
 input=$(cat)
 tool=$(printf '%s' "$input" | jq -r '.tool_name // empty')
 path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty')

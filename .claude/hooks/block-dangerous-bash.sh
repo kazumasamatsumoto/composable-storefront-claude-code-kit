@@ -1,5 +1,7 @@
 #!/bin/bash
 # PreToolUse(Bash|PowerShell): 取り返しのつかないコマンドを止める。Bash ツールと PowerShell ツールの両方の命令を見る。終了コード 2 で止め、stderr の文が Claude に伝わる。
+# jq が無いと入力を読めず、何も守れないまま通ってしまうので、止めて知らせる(fail-closed)
+command -v jq >/dev/null 2>&1 || { echo "hook に jq が必要です(macOS: brew install jq、Windows の Git Bash: winget install jqlang.jq)。入れるまでこの操作は止めます" >&2; exit 2; }
 input=$(cat)
 cmd=$(printf '%s' "$input" | jq -r '.tool_input.command // empty')
 [ -z "$cmd" ] && exit 0

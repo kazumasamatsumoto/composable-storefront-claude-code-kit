@@ -30,7 +30,8 @@
               "Bypass",
               "-File",
               "${CLAUDE_PROJECT_DIR}/.claude/hooks/block-dangerous-bash.ps1"
-            ]
+            ],
+            "onFailure": "block"
           }
         ]
       },
@@ -46,7 +47,8 @@
               "Bypass",
               "-File",
               "${CLAUDE_PROJECT_DIR}/.claude/hooks/protect-files.ps1"
-            ]
+            ],
+            "onFailure": "block"
           }
         ]
       }

@@ -43,6 +43,7 @@ echo "スキル: $n 本"
 jq empty "$C/settings.json" 2>/dev/null || ng "settings.json が JSON として読めない"
 while read -r cmd; do
   p=${cmd//\$\{CLAUDE_PROJECT_DIR\}/$ROOT}
+  p=${p//\"/}  # 空白のあるパスに備えた引用符を外す
   [ -f "$p" ] || { ng "settings.json の $cmd が無い"; continue; }
   [ -x "$p" ] || ng "$p に実行権限が無い(chmod +x)"
   bash -n "$p" || ng "$p に文法エラー"
