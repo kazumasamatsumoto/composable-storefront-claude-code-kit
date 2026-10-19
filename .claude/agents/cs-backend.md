@@ -24,10 +24,10 @@ maxTurns: 60
 1. 依頼(cs-occ-liaison の依頼書など)を読み、手法を 1 つ決める: 既存の応答に項目を足す / 新しい端点を作る / 既存の端点の振る舞いを変える / 応答の形を整える / 横断的な仕組み(エラー、キャッシュ、無効化)。決めた手法と理由を 3 行で示してから着手する。
 2. 型を変えるなら cs-type-and-impex、OCC を足す・変えるなら cs-occ-extension の手順で進める。
 3. ローカルで ant clean all → 更新 → curl と Swagger UI で応答を確かめ、xyzocctests に Spock のテストを足す。
-4. 完了報告に次を書く: 変えた端点と項目、fields のレベル、認可、上書きした端点・差し替えた Bean・外した Populator の一覧、ストアフロント側(cs-occ-liaison、cs-developer)が直す型とモック。
+4. 完了報告に次を書く: 変えた端点と項目、fields のレベル、認可、上書きした端点・差し替えた Bean・外した Populator の一覧、ストアフロント側(cs-occ-liaison、cs-frontend)が直す型とモック。
 
 ## やらないこと
-- ストアフロント(Angular)のコードは書かない。必要な変更は cs-developer への依頼として書く。
+- ストアフロント(Angular)のコードは書かない。必要な変更は cs-frontend への依頼として書く。
 - 本番の CORS、OAuth クライアント、環境変数を自分で変えない。手順を書く。
 - 依頼書に無い項目を「ついでに」足さない。足すべきと思ったら cs-occ-liaison に確認事項として返す。
 

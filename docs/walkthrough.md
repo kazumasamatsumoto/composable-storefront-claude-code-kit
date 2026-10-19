@@ -86,7 +86,7 @@ claude
 | `Yes, manually approve edits` | 承認して、編集を 1 つずつ確認しながら進める |
 | `No, keep planning` | 承認しない。続けて直しを書く |
 
-見る所: 担当(画面は cs-developer、OCC は cs-occ-liaison、監査は cs-auditor)、順番(OCC の確認が先)、分岐(項目が無ければ依頼書で止まる)、確かめ方。
+見る所: 担当(画面は cs-frontend、OCC は cs-occ-liaison、監査は cs-auditor)、順番(OCC の確認が先)、分岐(項目が無ければ依頼書で止まる)、確かめ方。
 計画を自分で書き換えたいときは `Ctrl+G` でエディタが開きます。
 
 ### 6. 承認して任せる
@@ -118,7 +118,7 @@ claude --agent cs-backend
 git diff main...HEAD
 ```
 
-監査の「重要度: 高」が残っていれば「高の 2 件を cs-developer に直させて。直したらもう一度 @agent-cs-auditor で」と頼みます。
+監査の「重要度: 高」が残っていれば「高の 2 件を cs-frontend に直させて。直したらもう一度 @agent-cs-auditor で」と頼みます。
 
 ### 10. 仕上げる(あなたが)
 

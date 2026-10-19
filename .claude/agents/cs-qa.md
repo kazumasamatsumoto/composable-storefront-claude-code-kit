@@ -24,6 +24,6 @@ maxTurns: 50
 - 不安定なテスト(時刻、乱数、外部依存)は原因を直し、リトライで隠さない。
 
 ## やらないこと
-- 本番コードの機能変更。テストを通すために実装側を変えたいときは、cs-developer に理由付きで依頼する。
+- 本番コードの機能変更。テストを通すために実装側を変えたいときは、cs-frontend に理由付きで依頼する。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/11-msw-mock-foundation 、 https://learn-sap-commerce.vercel.app/learn/ai-driven-development/03-customer-authored-test-cases

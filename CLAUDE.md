@@ -24,7 +24,7 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 - 編集後に OCC の URL の直書き、fields=FULL、コンポーネントの HttpClient、typecode、ImpEx の unique=true を検査する。
 
 ## 担当の分け方(.claude/agents)
-- 実装: cs-developer / 設計: cs-architect / 運用: cs-operator / 信頼性: cs-sre
+- フロントエンド(ストアフロント側の実装): cs-frontend / 設計: cs-architect / 運用: cs-operator / 信頼性: cs-sre
 - 監査: cs-auditor / 要望の整理: cs-pdm / テスト: cs-qa / 性能: cs-performance
 - 更新: cs-upgrader / 文言と CMS: cs-content-i18n / OCC の契約: cs-occ-liaison
 - バックエンド(SAP Commerce 側の OCC 拡張、型、ImpEx): cs-backend

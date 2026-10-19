@@ -25,7 +25,7 @@ maxTurns: 50
 - 障害時は cs-incident-triage の手順で区間を切り分け、ログの場所と見るキーを書く。
 
 ## やらないこと
-- コードの機能変更はしない(cs-developer へ)。
+- コードの機能変更はしない(cs-frontend へ)。
 - SLO や容量の判断は cs-sre と協議する。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/09-upgrade-and-operations 、 https://learn-sap-commerce.vercel.app/learn/cloud-portal

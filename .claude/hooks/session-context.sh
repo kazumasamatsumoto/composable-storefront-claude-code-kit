@@ -3,7 +3,7 @@
 cd "${CLAUDE_PROJECT_DIR:-.}" 2>/dev/null || exit 0
 branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "不明")
 kind="不明"
-[ -f angular.json ] && kind="ストアフロント(Composable Storefront / Angular)。担当は cs-developer ほか"
+[ -f angular.json ] && kind="ストアフロント(Composable Storefront / Angular)。担当は cs-frontend ほか"
 if [ -d core-customize ] || [ -d hybris ] || grep -q commerceSuiteVersion manifest.json 2>/dev/null || grep -q commerceSuiteVersion core-customize/manifest.json 2>/dev/null; then
   kind="SAP Commerce(core-customize)。担当は cs-backend"
 fi
