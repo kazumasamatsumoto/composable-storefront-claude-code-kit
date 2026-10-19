@@ -2,3 +2,5 @@ node_modules/
 dist/
 .claude/settings.local.json
 .DS_Store
+__pycache__/
+*.pyc
