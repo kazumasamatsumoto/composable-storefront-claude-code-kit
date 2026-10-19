@@ -4,8 +4,8 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 
 **前提の構成**: SSR あり。フロントは Angular(Composable Storefront の標準構成)、バックエンドは SAP Commerce(Spring)の標準構成で、ストアフロントは OCC だけを呼びます。BFF や Next.js などの別フロントは置きません。エージェント・スキル・hooks はこの前提で書いてあり、前提を変える案は出さずに人に上げます。
 
-- **エージェント(.claude/agents)12 人**: フロントエンド、設計、運用、SRE、監査、PdM、テスト、性能、更新、文言と CMS、OCC の契約、SAP Commerce 側のバックエンド
-- **スキル(.claude/skills)17 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx
+- **エージェント(.claude/agents)13 人**: フロントエンド、設計、運用、SRE、監査、PdM、テスト、性能、更新、文言と CMS、OCC の契約、SAP Commerce 側のバックエンド、ドキュメント
+- **スキル(.claude/skills)19 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx、文書の書き方(型 5 種)、PowerPoint と Excel の文字起こし
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える。**bash 版(.sh)と PowerShell 版(.ps1)の 2 組**があり、中身は同じです
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
 - **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
@@ -17,6 +17,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - [Claude Code](https://code.claude.com/docs/en/overview)
 - macOS / Linux / Windows(Git Bash あり): `bash` と `jq`(bash 版の hooks が使います。macOS なら `brew install jq`)
 - Windows(Git Bash なし): Windows に最初から入っている PowerShell 5.1 だけで動きます(PowerShell 版の hooks)。jq は要りません
+- PowerPoint / Excel の文字起こし(cs-office-transcribe): `python3`(標準ライブラリだけ)。Python の無い Windows では PowerShell 版が同じ出力を出します
 
 ## 構成
 
@@ -24,8 +25,8 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 .
 ├── CLAUDE.md                     … Claude が毎回読むルール(このリポジトリ用)
 ├── .claude/
-│   ├── agents/                   … 12 人の定義(name、description、tools、skills と本文)
-│   ├── skills/<名前>/SKILL.md    … 17 本の手順書
+│   ├── agents/                   … 13 人の定義(name、description、tools、skills と本文)
+│   ├── skills/<名前>/SKILL.md    … 19 本の手順書(cs-doc-writing は templates/、cs-office-transcribe は scripts/ も持つ)
 │   ├── hooks/                    … 4 本 × 2 組(*.sh は bash 版、*.ps1 は PowerShell 版)
 │   ├── settings.json             … どのイベントでどの hook を動かすか(bash 版を呼ぶ)
 │   └── settings.powershell.json  … 同じ内容で PowerShell 版を呼ぶ(Windows で使うときに settings.json と置き換える)
@@ -38,6 +39,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 │   ├── hooks/cases.json          … hooks のテストのケース(両方の版で共通)
 │   ├── hooks/run.sh              … bash 版に JSON を与えて、止める・通すを確かめる
 │   ├── hooks/run.ps1             … PowerShell 版を同じケースで確かめる
+│   ├── transcribe/               … 文字起こしのテスト(見本の .pptx / .xlsx と、期待する Markdown)
 │   └── validate-kit.sh           … name と description、skills の参照先、hooks の実行権限を確かめる
 └── docs/
     ├── how-it-is-invoked.md      … エージェント・スキル・hooks はいつ、どう動くか
@@ -70,7 +72,7 @@ claude
 
 | 打つもの | 見えるもの |
 |---|---|
-| `/agents` | 12 人のエージェント |
+| `/agents` | 13 人のエージェント |
 | `/hooks` | 4 本の hooks と、どの設定ファイルから来たか(読み取り専用) |
 | `/` | スキルの一覧(`cs-review-checklist` は参照用なので出ません) |
 
@@ -140,7 +142,26 @@ ImpEx の出発点にも列を足して。ant は実行しないで
 
 会話全体が cs-backend の定義(守ること、事前に読む 2 本のスキル)で動きます。わざと「typecode を 5000 に変えて」と頼むと、編集後の検査が止めます。
 
+### 練習 7. Excel と PowerPoint の資料を文字起こしして、引き継ぎ資料にまとめる
+
+見本の資料は `tests/transcribe/fixtures/` にあります(OCC API 一覧の Excel と、送料無料バッジの要件の PowerPoint)。
+
+```text
+cs-docs で、tests/transcribe/fixtures/sample.xlsx と sample.pptx を文字起こしして、
+送料無料バッジの引き継ぎ資料を docs/handover/free-shipping.md に書いて
+```
+
+cs-docs が cs-office-transcribe で `docs/transcripts/` に Markdown を書き出し、cs-doc-writing の引き継ぎ資料の型でまとめます。できた文書で、次を確かめてください。
+
+- 事実の文に(ソース)(推論)(未確認)などの印がある
+- 資料から取った文に「(シート API一覧、D8)」「(スライド 2)」のような元の場所がある
+- 非表示のスライドとシートを「使わない」「非表示」と区別している
+- 最後に「会議で言える 3 文」がある
+
+文字起こしだけを見たいときは、Claude を使わずに `python3 .claude/skills/cs-office-transcribe/scripts/transcribe.py tests/transcribe/fixtures/sample.xlsx` を打ちます。
+
 練習で変わったファイルは、終わったらあなたが `git restore playground` で元に戻します。
+練習 7 で作った `docs/` も、要らなければ消します。
 
 ## 自分の案件に入れる
 

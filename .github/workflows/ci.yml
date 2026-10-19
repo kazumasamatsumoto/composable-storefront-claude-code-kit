@@ -14,6 +14,11 @@ jobs:
       - name: hooks(PowerShell 版)を PowerShell 7 で確かめる
         shell: pwsh
         run: ./tests/hooks/run.ps1
+      - name: 文字起こし(Python 版)
+        run: bash tests/transcribe/run.sh
+      - name: 文字起こし(PowerShell 版)を PowerShell 7 で
+        shell: pwsh
+        run: ./tests/transcribe/run.ps1
   windows:
     runs-on: windows-latest
     steps:
@@ -27,3 +32,12 @@ jobs:
       - name: hooks(bash 版)を Git Bash で確かめる
         shell: bash
         run: bash tests/hooks/run.sh
+      - name: 文字起こし(PowerShell 版)を Windows PowerShell 5.1 で
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\transcribe\run.ps1
+      - name: 文字起こし(PowerShell 版)を PowerShell 7 で
+        shell: pwsh
+        run: pwsh -NoProfile -File tests\transcribe\run.ps1
+      - name: 文字起こし(Python 版)を Windows で
+        shell: bash
+        run: bash tests/transcribe/run.sh

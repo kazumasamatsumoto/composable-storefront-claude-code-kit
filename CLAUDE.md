@@ -22,6 +22,7 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 ## コマンド
 - hooks のテスト: bash tests/hooks/run.sh(PowerShell 版は powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1)。.sh と .ps1 は同じ規則に保ち、ケースは tests/hooks/cases.json に足す
 - 定義の検査: bash tests/validate-kit.sh
+- 文字起こしのテスト: bash tests/transcribe/run.sh(PowerShell 版は tests\transcribe\run.ps1)。transcribe.py と transcribe.ps1 は同じ出力に保つ
 - (実案件の例)開発: yarn start / テスト: yarn test / SSR ビルド: yarn build:ssr / E2E: yarn e2e
 
 ## 仕組みで止めていること(.claude/hooks)
@@ -34,3 +35,4 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 - 監査: cs-auditor / 要望の整理: cs-pdm / テスト: cs-qa / 性能: cs-performance
 - 更新: cs-upgrader / 文言と CMS: cs-content-i18n / OCC の契約: cs-occ-liaison
 - バックエンド(SAP Commerce 側の OCC 拡張、型、ImpEx): cs-backend
+- 文書(引き継ぎ、設計書、手順書、API 仕様、説明資料、PowerPoint / Excel の文字起こしと要約): cs-docs
