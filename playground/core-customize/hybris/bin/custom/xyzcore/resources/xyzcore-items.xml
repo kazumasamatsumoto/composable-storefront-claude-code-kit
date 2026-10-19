@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- 練習用の出発点。自社の拡張(hybris/bin/custom)なので、Claude は書き込めます。 -->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+  <itemtypes>
+    <itemtype code="XyzShippingRule" autocreate="true" generate="true">
+      <!-- typecode は案件の番号帯から選ぶ(0〜10000 は SAP の予約) -->
+      <deployment table="XyzShippingRules" typecode="25001"/>
+      <attributes>
+        <attribute qualifier="code" type="java.lang.String">
+          <persistence type="property"/>
+          <modifiers unique="true" optional="false"/>
+        </attribute>
+      </attributes>
+    </itemtype>
+  </itemtypes>
+</items>

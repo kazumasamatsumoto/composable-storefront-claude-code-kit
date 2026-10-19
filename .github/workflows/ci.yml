@@ -1,0 +1,13 @@
+name: kit-check
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: エージェント・スキル・hooks の定義を確かめる
+        run: bash tests/validate-kit.sh
+      - name: hooks に入力を与えて、止める・通すを確かめる
+        run: bash tests/hooks/run.sh

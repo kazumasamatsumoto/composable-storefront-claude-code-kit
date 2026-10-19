@@ -1,0 +1,3 @@
+# 練習用の出発点。INSERT_UPDATE のヘッダには unique=true の列が要る。
+INSERT_UPDATE XyzShippingRule;code[unique=true]
+;FREE_SHIPPING_DEFAULT
