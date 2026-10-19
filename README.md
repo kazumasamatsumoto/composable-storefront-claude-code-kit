@@ -8,7 +8,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - **スキル(.claude/skills)17 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える。**bash 版(.sh)と PowerShell 版(.ps1)の 2 組**があり、中身は同じです
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
-- **tests/**: hooks のテスト(66 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
+- **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
 
 解説: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/13-composable-storefront-agents-and-skills-kit
 
@@ -50,7 +50,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 git clone <このリポジトリの URL>
 cd composable-storefront-claude-code-kit
 bash tests/validate-kit.sh     # すべて OK と出る
-bash tests/hooks/run.sh        # 合計: ok 66 / NG 0 と出る
+bash tests/hooks/run.sh        # 合計: ok 71 / NG 0 と出る
 claude                         # リポジトリの直下で起動する
 ```
 
@@ -60,7 +60,7 @@ Windows で Git Bash が無い場合は、PowerShell で次のようにします
 git clone <このリポジトリの URL>
 cd composable-storefront-claude-code-kit
 Copy-Item .claude\settings.powershell.json .claude\settings.json   # hooks を PowerShell 版に切り替える
-powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1   # 合計: ok 66 / NG 0 と出る
+powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1   # 合計: ok 71 / NG 0 と出る
 claude
 ```
 

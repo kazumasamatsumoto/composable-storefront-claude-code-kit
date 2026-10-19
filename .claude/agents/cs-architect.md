@@ -30,4 +30,4 @@ maxTurns: 40
 - 根拠の無い断定をしない。不明点は「要確認」として残す。
 - 前提(SSR、Angular と Spring の標準構成)を変える案は出さない。前提では解けない要件が出たら、理由を書いて人に上げる。
 
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/05-customization-patterns 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance 、 https://learn-sap-commerce.vercel.app/learn/custom-storefront-nextjs
+参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/05-customization-patterns 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance

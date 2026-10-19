@@ -26,7 +26,7 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 
 ## 仕組みで止めていること(.claude/hooks)
 - ant initialize、rm -rf、git push --force、git reset --hard、DROP TABLE、パッケージの公開は hook で止まる。止まったら手順を書いて人に依頼する。
-- .env と鍵は読めない。node_modules、dist、hybris/bin(custom 以外)への書き込みは止まる。
+- .env と鍵は、Read と、よくある読み出しコマンド(cat、Get-Content など)を hook で止める。すべての読み方を防げるわけではないので、本物の秘密は作業用のリポジトリに置かない。node_modules、dist、hybris/bin(custom 以外)への書き込みは止まる。
 - 編集後に OCC の URL の直書き、fields=FULL、コンポーネントの HttpClient、window / document の直接利用(SSR)、typecode、ImpEx の unique=true を検査する。
 
 ## 担当の分け方(.claude/agents)

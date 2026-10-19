@@ -16,7 +16,7 @@ printf '%s' "$cmd" | grep -Eq '\brm\s+-[a-zA-Z]*r[a-zA-Z]*f|\brm\s+-[a-zA-Z]*f[a
 if printf '%s' "$cmd" | grep -Eiq '(^|[^a-z-])(remove-item|ri|rm|rmdir|rd|del|erase)\s(.*\s)?-r(e|ec|ecu|ecur|ecurs|ecurse)?(\s|$)' \
    && printf '%s' "$cmd" | grep -Eiq '\s-f(o|or|orc|orce)?(\s|$)'; then block "再帰と強制つきの削除(rm -r -f / Remove-Item -Recurse -Force)"; fi
 printf '%s' "$cmd" | grep -Eiq '(^|[^a-z-])(rd|rmdir)\s+/s\b' && block "rd /s"
-printf '%s' "$cmd" | grep -Eq '\bgit\s+push\b.*(--force|-f\b)' && block "git push --force"
+printf '%s' "$cmd" | grep -Eq '\bgit\s+push\b.*(\s--force|\s-f(\s|$)|\s\+[^ ]+)' && block "git push --force"
 printf '%s' "$cmd" | grep -Eq '\bgit\s+reset\s+--hard' && block "git reset --hard"
 printf '%s' "$cmd" | grep -Eiq '\b(drop|truncate)\s+table\b' && block "DROP / TRUNCATE TABLE"
 # 公開・配布

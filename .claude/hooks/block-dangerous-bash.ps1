@@ -27,7 +27,7 @@ if ($cmd -cmatch '\brm\s+-[a-zA-Z]*r[a-zA-Z]*f|\brm\s+-[a-zA-Z]*f[a-zA-Z]*r') { 
 if ($cmd -match '(^|[^a-z-])(remove-item|ri|rm|rmdir|rd|del|erase)\s(.*\s)?-r(e|ec|ecu|ecur|ecurs|ecurse)?(\s|$)' -and
     $cmd -match '\s-f(o|or|orc|orce)?(\s|$)') { Block '再帰と強制つきの削除(rm -r -f / Remove-Item -Recurse -Force)' }
 if ($cmd -match '(^|[^a-z-])(rd|rmdir)\s+/s\b') { Block 'rd /s' }
-if ($cmd -cmatch '\bgit\s+push\b.*(--force|-f\b)') { Block 'git push --force' }
+if ($cmd -cmatch '\bgit\s+push\b.*(\s--force|\s-f(\s|$)|\s\+[^ ]+)') { Block 'git push --force' }
 if ($cmd -cmatch '\bgit\s+reset\s+--hard') { Block 'git reset --hard' }
 if ($cmd -match '\b(drop|truncate)\s+table\b') { Block 'DROP / TRUNCATE TABLE' }
 # 公開・配布

@@ -8,6 +8,7 @@ path=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty')
 path=${path//\\//}  # Windows(Git Bash)の C:\a\b を C:/a/b にそろえる
 [ -z "$path" ] && exit 0
 
+shopt -s nocasematch  # Windows のパスは大文字と小文字を区別しない(Node_Modules、.ENV も止める)
 block() { echo "hook で禁止: $1($path)" >&2; exit 2; }
 
 # 秘密(読むのも禁止)

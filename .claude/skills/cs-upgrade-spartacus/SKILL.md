@@ -1,7 +1,7 @@
 ---
 name: cs-upgrade-spartacus
 description: Composable Storefront(Spartacus)を次の版に上げる手順。リリースノートの確認、影響表、ng update と schematics、回帰テスト、報告まで。バージョンアップを頼まれたときに使う。
-allowed-tools: Read, Grep, Glob, Edit, Bash(git *), Bash(npx ng update *), Bash(npx ng generate *), Bash(yarn install *), Bash(yarn build *), Bash(yarn test *)
+allowed-tools: Read, Grep, Glob, Edit, Bash(git status *), Bash(git diff *), Bash(git log *), Bash(git switch -c *), Bash(npx ng update *), Bash(npx ng generate *), Bash(yarn install *), Bash(yarn build *), Bash(yarn test *)
 ---
 
 # Spartacus のバージョンアップ

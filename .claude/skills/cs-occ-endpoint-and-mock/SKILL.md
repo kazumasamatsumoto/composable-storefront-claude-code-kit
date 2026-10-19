@@ -1,7 +1,7 @@
 ---
 name: cs-occ-endpoint-and-mock
 description: Composable Storefront に新しい OCC 呼び出しを追加し、同時に MSW のモックを用意する手順。「この API を画面で使いたい」「バックエンド無しで画面を作りたい」と頼まれたときに使う。
-allowed-tools: Read, Grep, Glob, Edit, Write, Bash(npx ng test *), Bash(yarn test *), Bash(curl *)
+allowed-tools: Read, Grep, Glob, Edit, Write, Bash(npx ng test *), Bash(yarn test *)
 ---
 
 # OCC 端点の追加と MSW モック

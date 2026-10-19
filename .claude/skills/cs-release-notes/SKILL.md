@@ -6,6 +6,8 @@ allowed-tools: Read, Grep, Glob, Write, Bash(git log *), Bash(git diff *)
 
 # リリースノート
 
+コミット履歴は `git log` で読む。Bash を持たないエージェント(cs-pdm)が使うときは、人か cs-operator から履歴を受け取って書く。
+
 ## 書式
 ```
 # リリース <版 / 日付>

@@ -1,7 +1,7 @@
 ---
 name: cs-occ-extension
 description: SAP Commerce 側で OCC API を足す・変える手順(yocc から自分の OCC 拡張を作る、WsDTO と fieldSetLevelMapping、Controller と @Secured、@RequestMappingOverride、エラー応答、Spock テスト)。「OCC に項目を足して」「新しい OCC 端点を作って」「標準の端点の動きを変えて」と頼まれたときに使う。
-allowed-tools: Read, Grep, Glob, Edit, Write, Bash(ant *), Bash(curl *)
+allowed-tools: Read, Grep, Glob, Edit, Write, Bash(ant *)
 ---
 
 # OCC API の追加と変更(Commerce 側)

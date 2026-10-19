@@ -1,7 +1,7 @@
 ---
 name: cs-incident-triage
 description: Composable Storefront の障害(画面が出ない、遅い、エラーが出る)を、ブラウザ / CDN / SSR / OCC / バックエンドのどの区間かに切り分ける手順。障害対応の最初の 15 分で使う。
-allowed-tools: Read, Grep, Glob, Bash(curl *)
+allowed-tools: Read, Grep, Glob
 ---
 
 # 障害の切り分け(最初の 15 分)

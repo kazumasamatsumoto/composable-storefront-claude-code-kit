@@ -440,6 +440,39 @@
   }
  },
  {
+  "hook": "block-dangerous-bash",
+  "expect": 2,
+  "label": "止める: git push origin +main",
+  "input": {
+   "tool_name": "Bash",
+   "tool_input": {
+    "command": "git push origin +main"
+   }
+  }
+ },
+ {
+  "hook": "block-dangerous-bash",
+  "expect": 2,
+  "label": "止める: git push --force-with-lease",
+  "input": {
+   "tool_name": "Bash",
+   "tool_input": {
+    "command": "git push --force-with-lease"
+   }
+  }
+ },
+ {
+  "hook": "block-dangerous-bash",
+  "expect": 0,
+  "label": "通す: git push origin feature/fix-f",
+  "input": {
+   "tool_name": "Bash",
+   "tool_input": {
+    "command": "git push origin feature/fix-f"
+   }
+  }
+ },
+ {
   "hook": "protect-files",
   "expect": 2,
   "label": "読ませない: .env",
@@ -590,6 +623,28 @@
    "tool_name": "Edit",
    "tool_input": {
     "file_path": "C:\\work\\core-customize\\hybris\\bin\\custom\\xyzcore\\a.xml"
+   }
+  }
+ },
+ {
+  "hook": "protect-files",
+  "expect": 2,
+  "label": "読ませない(大文字小文字違い): .ENV",
+  "input": {
+   "tool_name": "Read",
+   "tool_input": {
+    "file_path": "C:\\work\\shop\\.ENV"
+   }
+  }
+ },
+ {
+  "hook": "protect-files",
+  "expect": 2,
+  "label": "書かせない(大文字小文字違い): Node_Modules",
+  "input": {
+   "tool_name": "Edit",
+   "tool_input": {
+    "file_path": "C:\\work\\shop\\Node_Modules\\x\\index.js"
    }
   }
  },

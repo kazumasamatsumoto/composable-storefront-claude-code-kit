@@ -1,7 +1,7 @@
 ---
 name: cs-ssr-check
 description: Composable Storefront の SSR(サーバー側描画)をローカルで動かし、正しく HTML が返っているか、二重取得や SSR 失敗が無いかを確認する手順。SSR の不具合調査や性能確認のときに使う。
-allowed-tools: Read, Grep, Glob, Bash(yarn build:ssr *), Bash(yarn serve:ssr *), Bash(npm run *), Bash(curl *)
+allowed-tools: Read, Grep, Glob, Bash(yarn build:ssr *), Bash(yarn serve:ssr *), Bash(npm run build:ssr *), Bash(npm run serve:ssr *)
 ---
 
 # SSR の確認
@@ -11,7 +11,7 @@ allowed-tools: Read, Grep, Glob, Bash(yarn build:ssr *), Bash(yarn serve:ssr *),
 - OCC の向き先が正しいか(環境変数か設定)を確認する
 
 ## 2. HTML を直接見る
-- `curl -s http://localhost:4200/ | head -c 3000` のように、ブラウザを使わず HTML を見る
+- `curl -s http://localhost:4000/ | head -c 3000`(`serve:ssr` の既定は 4000。4200 は `ng serve` の CSR) のように、ブラウザを使わず HTML を見る
 - チェック: 主要な内容(商品名、見出し)が HTML に入っている。空の `app-root` だけなら SSR が失敗して CSR に落ちている
 - チェック: `<title>` と meta が入っている(SEO 対象ページ)
 
