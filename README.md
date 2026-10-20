@@ -7,6 +7,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - **エージェント(.claude/agents)13 人**: フロントエンド、設計、運用、SRE、監査、PdM、テスト、性能、更新、文言と CMS、OCC の契約、SAP Commerce 側のバックエンド、ドキュメント
 - **スキル(.claude/skills)19 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx、文書の書き方(型 5 種)、PowerPoint と Excel の文字起こし
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える。**bash 版(.sh)と PowerShell 版(.ps1)の 2 組**があり、中身は同じです
+- **権限ルール(.claude/settings.json の permissions)**: 禁止(deny)、毎回確認(ask)、聞かずに許す(allow)の 3 つのリスト。hooks と違い Claude Code 自身が止めます。秘密のファイルを読むこと、標準ソースと node_modules・dist への書き込み、`ant initialize`、パッケージの公開を禁止し、`git push` / `git reset` / `git clean` と外へのダウンロードは毎回聞きます。git の閲覧と npm の build・test・lint は聞かずに許します
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
 - **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
 
@@ -28,8 +29,8 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 │   ├── agents/                   … 13 人の定義(name、description、tools、skills と本文)
 │   ├── skills/<名前>/SKILL.md    … 19 本の手順書(cs-doc-writing は templates/、cs-office-transcribe は scripts/ も持つ)
 │   ├── hooks/                    … 4 本 × 2 組(*.sh は bash 版、*.ps1 は PowerShell 版)
-│   ├── settings.json             … どのイベントでどの hook を動かすか(bash 版を呼ぶ)
-│   └── settings.powershell.json  … 同じ内容で PowerShell 版を呼ぶ(Windows で使うときに settings.json と置き換える)
+│   ├── settings.json             … 権限ルール(permissions)と、どのイベントでどの hook を動かすか(bash 版を呼ぶ)
+│   └── settings.powershell.json  … 同じ権限ルールで、hooks は PowerShell 版を呼ぶ(Windows で使うときに settings.json と置き換える)
 ├── playground/
 │   ├── storefront/               … 送料無料バッジの部品(出発点)、翻訳ファイル、ダミーの .env
 │   └── core-customize/hybris/bin/
@@ -166,12 +167,22 @@ cs-docs が cs-office-transcribe で `docs/transcripts/` に Markdown を書き�
 ## 自分の案件に入れる
 
 1. この `.claude/` をストアフロントのリポジトリの直下にコピーします。cs-backend と、その 2 本のスキル(`cs-occ-extension`、`cs-type-and-impex`)、hooks は、core-customize のリポジトリにも置きます。
-2. すでに `.claude/settings.json` がある場合は、上書きせずに `hooks` の部分だけを足します。
+2. すでに `.claude/settings.json` がある場合は、上書きせずに `permissions` と `hooks` の部分を足します。`permissions` の `deny` / `ask` / `allow` は、今あるリストに項目を足します。
 3. `CLAUDE.md` のルールとコマンドを、案件の実際の名前(`yarn` か `npm` か、E2E の道具など)に直します。
 4. 各スキルの数値(性能予算、SLO、リリースの環境名と切り戻しの基準)を案件の値に置き換えます。
 5. Claude Code を起動し直します。`.claude/agents` などのフォルダが無い状態で始めたセッションには、新しいフォルダが読み込まれないためです。
 6. hooks を変えたら `tests/hooks/cases.json` にケースを足し、`bash tests/hooks/run.sh` と `run.ps1` の両方で確かめます。.sh と .ps1 は同じ規則に保ちます。
 7. Windows の開発者がいるなら、どちらの版を使うかを決めます。Git Bash があれば bash 版のままで動きます(Windows の `C:\a\b` 形式のパスにも対応済み)。Git Bash が無ければ `settings.powershell.json` を `settings.json` にします。
+
+### 権限ルールについて
+
+- **効く順番**: deny → ask → allow の順に見て、最初に当たったもので決まります。allow で deny に穴は開けられません。設定ファイルが違っても同じで、どこかの deny に当たれば止まります(公式 Permissions)。
+- **allow が効く時期**: allow は、そのフォルダを「信頼する」と答えるまで効きません。deny と ask は、狭めるだけなので最初から効きます(公式 Permissions)。
+- **Read の deny の範囲**: 同じパスへの Edit と Write も止めます(公式 Permissions)。
+- **限界**: 権限ルールもコマンドの文字列を見ているので、書き方を変えると一致しません。公式も「セキュリティの境界ではない」と書いています。守りの本体はサンドボックスです。
+- **サンドボックスの入れ方**: リポジトリの設定ではなく、各自のユーザー設定(`~/.claude/settings.json`)に人が入れます。Mac・Linux・WSL2 で使えますが、Windows ネイティブでは使えません。
+- **解説**: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/14-permission-rules-and-sandbox
+- **未確認**: Mac で Claude Code が PowerShell の道具を持たない場合に、`PowerShell(...)` のルールに起動時の警告が出るかどうかは確かめていません。警告が出ても、ルールが効かなくなるだけで害はありません(推論)。
 
 最初から全部入れる必要はありません。まず `cs-frontend` と 2 本のスキル(`cs-component-customization`、`cs-occ-endpoint-and-mock`)と hooks だけ入れて、呼ばれ方を確かめてから増やすのがおすすめです。
 

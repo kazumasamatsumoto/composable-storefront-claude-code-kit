@@ -66,4 +66,9 @@ while read -r f; do
 done < <(jq -r '.hooks[][].hooks[] | .args[-1]' "$P")
 echo "hooks(PowerShell 版): $(jq '[.hooks[][].hooks[]] | length' "$P") 本$(command -v pwsh >/dev/null || echo '(pwsh が無いので文法検査は省略)')"
 
+# --- 権限ルール(settings.json と settings.powershell.json で同じにする)
+[ "$(jq -c '.permissions' "$C/settings.json")" = "$(jq -c '.permissions' "$P")" ] || ng "settings.json と settings.powershell.json で permissions が違う"
+jq -e '.permissions.deny | length > 0' "$C/settings.json" >/dev/null || ng "settings.json に permissions.deny が無い"
+echo "権限ルール: deny $(jq '.permissions.deny | length' "$C/settings.json") / ask $(jq '.permissions.ask | length' "$C/settings.json") / allow $(jq '.permissions.allow | length' "$C/settings.json")"
+
 [ "$err" = 0 ] && echo "すべて OK" || { echo "NG が $err 件"; exit 1; }
