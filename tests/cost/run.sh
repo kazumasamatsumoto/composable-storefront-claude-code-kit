@@ -9,8 +9,10 @@ command -v cygpath >/dev/null && W="$(cygpath -m "$W")"   # Windows の Git Bash
 err=0
 ng() { echo "NG  $1"; err=$((err+1)); }
 
-# 作業フォルダ /work/demo-proj の会話記録を作る(フォルダ名は、node が解決したパスの英数字以外を - にしたもの)
-P="$W/config/projects/$(node -e 'console.log(require("path").resolve("/work/demo-proj").replace(/[^A-Za-z0-9]/g,"-"))')"
+# 作業フォルダ $W/demo-proj の会話記録を作る(フォルダ名は、node が解決したパスの英数字以外を - にしたもの)
+PROJ="$W/demo-proj"
+mkdir -p "$PROJ"
+P="$W/config/projects/$(node -e 'console.log(require("path").resolve(process.argv[1]).replace(/[^A-Za-z0-9]/g,"-"))' "$PROJ")"
 mkdir -p "$P/s1/subagents"
 A='{"type":"assistant","message":{"id":"m1","model":"claude-opus-5-5","usage":{"input_tokens":1000,"cache_creation_input_tokens":2000,"cache_read_input_tokens":1000000,"output_tokens":3000,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":2000}}}}'
 {
@@ -23,7 +25,7 @@ echo '{"type":"assistant","message":{"id":"x1","model":"claude-sonnet-5-5","usag
 echo '{"agentType":"cs-frontend"}' > "$P/s1/subagents/agent-a1.meta.json"
 echo '{"type":"assistant","message":{"id":"y1","model":"claude-unknown-9","usage":{"input_tokens":5,"output_tokens":5}}}' > "$P/s1/subagents/agent-a2.jsonl"
 
-run() { CLAUDE_CONFIG_DIR="$W/config" node "$S" --project-dir /work/demo-proj --log "$W/log.csv" "$@"; }
+run() { CLAUDE_CONFIG_DIR="$W/config" node "$S" --project-dir "$PROJ" --log "$W/log.csv" "$@"; }
 
 # opus: 1000*4 + 2000*8 + 1e6*0.2 + 3000*20 = 280000 → $0.28 / haiku(日付付きの名前): 1e6*1 → $1 / sonnet: 1e6*10 → $10
 j=$(run --session s1 --label "一回目" --json) || ng "実行に失敗"
