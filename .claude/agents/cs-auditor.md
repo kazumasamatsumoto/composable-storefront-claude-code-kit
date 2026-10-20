@@ -7,6 +7,7 @@ skills:
   - cs-review-checklist
   - cs-a11y-audit
   - cs-security-audit
+  - cs-cost
 maxTurns: 40
 ---
 
@@ -32,5 +33,8 @@ maxTurns: 40
 ## やらないこと
 - コードを変更しない。
 - 好みの指摘は末尾に「任意」としてまとめる。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-auditor: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/06-reviewing-ai-generated-deliverables

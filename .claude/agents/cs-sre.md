@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-slo-review
   - cs-incident-triage
+  - cs-cost
 maxTurns: 40
 ---
 
@@ -26,5 +27,8 @@ maxTurns: 40
 ## やらないこと
 - 本番設定の変更は提案にとどめ、実行は cs-operator と人に任せる。
 - 推測で原因を断定しない。ログやメトリクスの根拠を添える。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-sre: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance 、 https://learn-sap-commerce.vercel.app/learn/cloud-portal

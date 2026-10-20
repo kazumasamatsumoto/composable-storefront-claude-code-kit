@@ -5,9 +5,10 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 **前提の構成**: SSR あり。フロントは Angular(Composable Storefront の標準構成)、バックエンドは SAP Commerce(Spring)の標準構成で、ストアフロントは OCC だけを呼びます。BFF や Next.js などの別フロントは置きません。エージェント・スキル・hooks はこの前提で書いてあり、前提を変える案は出さずに人に上げます。
 
 - **エージェント(.claude/agents)13 人**: フロントエンド、設計、運用、SRE、監査、PdM、テスト、性能、更新、文言と CMS、OCC の契約、SAP Commerce 側のバックエンド、ドキュメント
-- **スキル(.claude/skills)19 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx、文書の書き方(型 5 種)、PowerPoint と Excel の文字起こし
+- **スキル(.claude/skills)20 本**: コンポーネントの差し替え、OCC の追加とモック、SSR の確認、CCv2 のリリース、障害の切り分け、監査、性能予算、バージョンアップ、ストーリー、ADR、E2E、リリースノート、SLO、レビュー観点、Commerce 側の OCC 拡張、型の追加と ImpEx、文書の書き方(型 5 種)、PowerPoint と Excel の文字起こし、コストの集計
+- **コストの集計(cs-cost)**: 依頼を 1 件終えるたびに、本会話と担当(サブエージェント)が使ったトークン数と、API 料金に換算した金額を表にして報告に付け、`docs/cost-log.csv` に 1 行足します。CLAUDE.md と、Bash を持つ 10 人の担当の定義に「終わるときに実行する」と書いてあります
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える。**bash 版(.sh)と PowerShell 版(.ps1)の 2 組**があり、中身は同じです
-- **権限ルール(.claude/settings.json の permissions)**: 禁止(deny)、毎回確認(ask)、聞かずに許す(allow)の 3 つのリスト。hooks と違い Claude Code 自身が止めます。秘密のファイルを読むこと、標準ソースと node_modules・dist への書き込み、`ant initialize`、パッケージの公開を禁止し、`git push` / `git reset` / `git clean` と外へのダウンロードは毎回聞きます。git の閲覧と npm の build・test・lint は聞かずに許します
+- **権限ルール(.claude/settings.json の permissions)**: 禁止(deny)、毎回確認(ask)、聞かずに許す(allow)の 3 つのリスト。hooks と違い Claude Code 自身が止めます。秘密のファイルを読むこと、標準ソースと node_modules・dist への書き込み、`ant initialize`、パッケージの公開を禁止し、`git push` / `git reset` / `git clean` と外へのダウンロードは毎回聞きます。git の閲覧、npm の build・test・lint、コストの集計スクリプトは聞かずに許します
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
 - **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
 
@@ -18,6 +19,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - [Claude Code](https://code.claude.com/docs/en/overview)
 - macOS / Linux / Windows(Git Bash あり): `bash` と `jq`(bash 版の hooks が使います。macOS なら `brew install jq`)
 - Windows(Git Bash なし): Windows に最初から入っている PowerShell 5.1 だけで動きます(PowerShell 版の hooks)。jq は要りません
+- コストの集計(cs-cost): `node`(標準ライブラリだけ。Angular の開発に使うものでよい)
 - PowerPoint / Excel の文字起こし(cs-office-transcribe): `python3`(標準ライブラリだけ)。Python の無い Windows では PowerShell 版が同じ出力を出します
 
 ## 構成
@@ -27,7 +29,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 ├── CLAUDE.md                     … Claude が毎回読むルール(このリポジトリ用)
 ├── .claude/
 │   ├── agents/                   … 13 人の定義(name、description、tools、skills と本文)
-│   ├── skills/<名前>/SKILL.md    … 19 本の手順書(cs-doc-writing は templates/、cs-office-transcribe は scripts/ も持つ)
+│   ├── skills/<名前>/SKILL.md    … 20 本の手順書(cs-doc-writing は templates/、cs-office-transcribe と cs-cost は scripts/ も持つ)
 │   ├── hooks/                    … 4 本 × 2 組(*.sh は bash 版、*.ps1 は PowerShell 版)
 │   ├── settings.json             … 権限ルール(permissions)と、どのイベントでどの hook を動かすか(bash 版を呼ぶ)
 │   └── settings.powershell.json  … 同じ権限ルールで、hooks は PowerShell 版を呼ぶ(Windows で使うときに settings.json と置き換える)
@@ -41,6 +43,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 │   ├── hooks/run.sh              … bash 版に JSON を与えて、止める・通すを確かめる
 │   ├── hooks/run.ps1             … PowerShell 版を同じケースで確かめる
 │   ├── transcribe/               … 文字起こしのテスト(見本の .pptx / .xlsx と、期待する Markdown)
+│   ├── cost/run.sh               … コストの集計に作り物の会話記録を読ませ、数と金額を確かめる
 │   └── validate-kit.sh           … name と description、skills の参照先、hooks の実行権限を確かめる
 └── docs/
     ├── how-it-is-invoked.md      … エージェント・スキル・hooks はいつ、どう動くか
@@ -183,6 +186,14 @@ cs-docs が cs-office-transcribe で `docs/transcripts/` に Markdown を書き�
 - **サンドボックスの入れ方**: リポジトリの設定ではなく、各自のユーザー設定(`~/.claude/settings.json`)に人が入れます。Mac・Linux・WSL2 で使えますが、Windows ネイティブでは使えません。
 - **解説**: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/14-permission-rules-and-sandbox
 - **未確認**: Mac で Claude Code が PowerShell の道具を持たない場合に、`PowerShell(...)` のルールに起動時の警告が出るかどうかは確かめていません。警告が出ても、ルールが効かなくなるだけで害はありません(推論)。
+
+### コストの集計について
+
+- **数え方**: Claude Code が手元に残す会話の記録(`~/.claude/projects/` の下)を読み、応答ごとの使用量を足します。記録は読むだけで、書き換えません。担当の分も含みます。
+- **今回の依頼の行**: `docs/cost-log.csv` の同じ会話の前回の行との差です。見積もりの実績にはこの行を使います。
+- **金額**: `.claude/skills/cs-cost/rates.json` の単価(公式の料金表を 2026-10-20 に写したもの)で API 料金に換算しています。定額プランではこの金額は請求されませんが、使った量の目安になります。料金が変わったら rates.json を直します。
+- **聞かれずに動く理由**: permissions の allow に、このスクリプトを起動するコマンドを 1 本だけ足してあります。
+- **Bash を持たない担当**: cs-architect、cs-content-i18n、cs-pdm は自分では数えられないので、本会話が報告を受け取ったあとに数えます。
 
 最初から全部入れる必要はありません。まず `cs-frontend` と 2 本のスキル(`cs-component-customization`、`cs-occ-endpoint-and-mock`)と hooks だけ入れて、呼ばれ方を確かめてから増やすのがおすすめです。
 

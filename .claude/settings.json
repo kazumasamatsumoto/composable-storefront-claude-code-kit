@@ -53,7 +53,9 @@
       "PowerShell(npm run build *)",
       "PowerShell(npm run test *)",
       "PowerShell(npm run lint *)",
-      "PowerShell(npm test *)"
+      "PowerShell(npm test *)",
+      "Bash(node .claude/skills/cs-cost/scripts/cost.mjs *)",
+      "PowerShell(node .claude/skills/cs-cost/scripts/cost.mjs *)"
     ]
   },
   "hooks": {

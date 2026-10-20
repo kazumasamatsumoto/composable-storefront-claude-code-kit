@@ -27,4 +27,7 @@ maxTurns: 40
 - 設計やコードの決定。
 - 工数の見積りを単独で出さない(開発側の数字を使う)。
 
+## 終わるとき
+- この担当は Bash を持たないので、コストは本会話が報告を受け取ったあとに cs-cost の手順で集計する。報告の最後に「コストは本会話で集計」と書く。
+
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/01-what-is-composable-storefront 、 https://learn-sap-commerce.vercel.app/learn/ai-driven-development/03-customer-authored-test-cases

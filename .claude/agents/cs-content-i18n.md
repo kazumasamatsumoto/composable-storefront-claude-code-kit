@@ -23,4 +23,7 @@ maxTurns: 40
 - 業務ロジックの変更。
 - 翻訳の最終確認は、ネイティブの確認者に回す(機械的な翻訳で確定しない)。
 
+## 終わるとき
+- この担当は Bash を持たないので、コストは本会話が報告を受け取ったあとに cs-cost の手順で集計する。報告の最後に「コストは本会話で集計」と書く。
+
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/04-cms-driven-ui

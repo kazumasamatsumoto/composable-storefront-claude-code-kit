@@ -16,6 +16,8 @@ jobs:
         run: ./tests/hooks/run.ps1
       - name: 文字起こし(Python 版)
         run: bash tests/transcribe/run.sh
+      - name: コストの集計(cs-cost)
+        run: bash tests/cost/run.sh
       - name: 文字起こし(PowerShell 版)を PowerShell 7 で
         shell: pwsh
         run: ./tests/transcribe/run.ps1
@@ -41,3 +43,6 @@ jobs:
       - name: 文字起こし(Python 版)を Windows で
         shell: bash
         run: bash tests/transcribe/run.sh
+      - name: コストの集計(cs-cost)を Windows で
+        shell: bash
+        run: bash tests/cost/run.sh

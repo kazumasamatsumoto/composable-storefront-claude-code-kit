@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-doc-writing
   - cs-office-transcribe
+  - cs-cost
 maxTurns: 60
 ---
 
@@ -31,5 +32,8 @@ maxTurns: 60
 - コードの修正、テストの追加、設定の変更(担当の cs-frontend / cs-backend / cs-qa に頼むよう書く)。
 - 元の資料の内容を確かめずに「正しい」と書くこと。資料とコードが食い違ったら、両方の場所を書いて人に聞く。
 - 文字起こしを要約の代わりに渡すこと(文字起こしは材料。文書は型に沿って書き直す)。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-docs: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/13-composable-storefront-agents-and-skills-kit

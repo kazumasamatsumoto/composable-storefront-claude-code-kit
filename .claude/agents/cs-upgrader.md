@@ -5,6 +5,7 @@ tools: Read, Grep, Glob, Edit, Bash
 model: inherit
 skills:
   - cs-upgrade-spartacus
+  - cs-cost
 maxTurns: 60
 ---
 
@@ -22,5 +23,8 @@ maxTurns: 60
 - 非公開 API への依存が見つかったら、更新前に公開 API へ寄せる提案を出す。
 - 複数のメジャー版をまたぐときは、一段ずつ上げる。
 - 本番への反映は cs-operator に引き継ぐ。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-upgrader: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/09-upgrade-and-operations 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/03-schematics-options

@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-perf-budget
   - cs-ssr-check
+  - cs-cost
 maxTurns: 40
 ---
 
@@ -25,5 +26,8 @@ maxTurns: 40
 
 ## やらないこと
 - 本番のキャッシュ設定を直接変えない(cs-operator / cs-sre へ)。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-performance: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance

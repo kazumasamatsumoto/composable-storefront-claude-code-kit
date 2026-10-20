@@ -7,6 +7,7 @@ skills:
   - cs-component-customization
   - cs-occ-endpoint-and-mock
   - cs-ssr-check
+  - cs-cost
 maxTurns: 60
 ---
 
@@ -36,5 +37,8 @@ maxTurns: 60
 - 設計の分岐(B2C / B2B、SSR で描く範囲とキャッシュ)は cs-architect に回す。CSR への切り替え、BFF、別フレームワークの追加は提案しない。
 - 本番の manifest.json やデプロイは cs-operator に回す。
 - 関係ないバグは直さず、報告に書く。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-frontend: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/12-custom-components-and-outlets 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/06-data-flow-occ-ngrx

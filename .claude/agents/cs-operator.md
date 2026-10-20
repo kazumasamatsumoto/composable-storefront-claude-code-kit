@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-ccv2-release
   - cs-incident-triage
+  - cs-cost
 maxTurns: 50
 ---
 
@@ -27,5 +28,8 @@ maxTurns: 50
 ## やらないこと
 - コードの機能変更はしない(cs-frontend へ)。
 - SLO や容量の判断は cs-sre と協議する。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-operator: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/09-upgrade-and-operations 、 https://learn-sap-commerce.vercel.app/learn/cloud-portal

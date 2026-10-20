@@ -18,11 +18,13 @@ Claude Code のエージェント・スキル・hooks のサンプルです。`p
 - SAP Commerce 側は自社の拡張(hybris/bin/custom)だけを変える。typecode は 10001 以上。ImpEx のヘッダには unique=true。
 - 本番の操作(デプロイ、ロールバック、設定変更、initialize)は提案までにとどめ、人が実行する。
 - push、プルリクエスト、コミットは人がする。
+- 依頼を 1 件終えて報告する直前に、毎回 cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "<依頼>"` を実行し、出た表を報告の最後に付ける(担当に任せた分も含めて数える)。
 
 ## コマンド
 - hooks のテスト: bash tests/hooks/run.sh(PowerShell 版は powershell -NoProfile -ExecutionPolicy Bypass -File tests\hooks\run.ps1)。.sh と .ps1 は同じ規則に保ち、ケースは tests/hooks/cases.json に足す
 - 定義の検査: bash tests/validate-kit.sh
 - 文字起こしのテスト: bash tests/transcribe/run.sh(PowerShell 版は tests\transcribe\run.ps1)。transcribe.py と transcribe.ps1 は同じ出力に保つ
+- コストの集計: node .claude/skills/cs-cost/scripts/cost.mjs --label "<依頼>"(記録は docs/cost-log.csv)/ そのテスト: bash tests/cost/run.sh
 - (実案件の例)開発: yarn start / テスト: yarn test / SSR ビルド: yarn build:ssr / E2E: yarn e2e
 
 ## 仕組みで止めていること(.claude/hooks)

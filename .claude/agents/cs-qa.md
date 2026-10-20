@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-e2e-flow
   - cs-occ-endpoint-and-mock
+  - cs-cost
 maxTurns: 50
 ---
 
@@ -25,5 +26,8 @@ maxTurns: 50
 
 ## やらないこと
 - 本番コードの機能変更。テストを通すために実装側を変えたいときは、cs-frontend に理由付きで依頼する。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-qa: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/11-msw-mock-foundation 、 https://learn-sap-commerce.vercel.app/learn/ai-driven-development/03-customer-authored-test-cases

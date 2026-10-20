@@ -6,6 +6,7 @@ model: inherit
 skills:
   - cs-occ-extension
   - cs-type-and-impex
+  - cs-cost
 maxTurns: 60
 ---
 
@@ -33,5 +34,8 @@ maxTurns: 60
 - ストアフロント(Angular)のコードは書かない。必要な変更は cs-frontend への依頼として書く。
 - 本番の CORS、OAuth クライアント、環境変数を自分で変えない。手順を書く。
 - 依頼書に無い項目を「ついでに」足さない。足すべきと思ったら cs-occ-liaison に確認事項として返す。
+
+## 終わるとき
+- 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-backend: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
 
 参考: https://learn-sap-commerce.vercel.app/learn/commerce-cloud/13-hands-on-attribute-to-occ 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/15-exposing-features-as-occ-api 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/09-occ-api-and-dev-workflow
