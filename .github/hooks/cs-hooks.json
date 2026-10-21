@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "bash": "bash .github/hooks/copilot-adapter.sh SessionStart session-context",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/copilot-adapter.ps1 SessionStart session-context",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ],
+    "PreToolUse": [
+      {
+        "type": "command",
+        "matcher": "Bash",
+        "bash": "bash .github/hooks/copilot-adapter.sh PreToolUse block-dangerous-bash",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/copilot-adapter.ps1 PreToolUse block-dangerous-bash",
+        "cwd": ".",
+        "timeoutSec": 30
+      },
+      {
+        "type": "command",
+        "matcher": "Read|Edit|Write",
+        "bash": "bash .github/hooks/copilot-adapter.sh PreToolUse protect-files",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/copilot-adapter.ps1 PreToolUse protect-files",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "command",
+        "matcher": "Edit|Write|edit|create|str_replace_editor|apply_patch",
+        "bash": "bash .github/hooks/copilot-adapter.sh PostToolUse check-after-edit",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/hooks/copilot-adapter.ps1 PostToolUse check-after-edit",
+        "cwd": ".",
+        "timeoutSec": 120
+      }
+    ]
+  }
+}

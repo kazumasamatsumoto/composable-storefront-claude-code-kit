@@ -42,7 +42,8 @@ echo "スキル: $n 本"
 # --- hooks
 jq empty "$C/settings.json" 2>/dev/null || ng "settings.json が JSON として読めない"
 while read -r cmd; do
-  p=${cmd//\$\{CLAUDE_PROJECT_DIR\}/$ROOT}
+  p=${cmd//\$\{CLAUDE_PROJECT_DIR:-.\}/$ROOT}
+  p=${p//\$\{CLAUDE_PROJECT_DIR\}/$ROOT}
   p=${p//\"/}  # 空白のあるパスに備えた引用符を外す
   [ -f "$p" ] || { ng "settings.json の $cmd が無い"; continue; }
   [ -x "$p" ] || ng "$p に実行権限が無い(chmod +x)"
@@ -70,5 +71,25 @@ echo "hooks(PowerShell 版): $(jq '[.hooks[][].hooks[]] | length' "$P") 本$(com
 [ "$(jq -c '.permissions' "$C/settings.json")" = "$(jq -c '.permissions' "$P")" ] || ng "settings.json と settings.powershell.json で permissions が違う"
 jq -e '.permissions.deny | length > 0' "$C/settings.json" >/dev/null || ng "settings.json に permissions.deny が無い"
 echo "権限ルール: deny $(jq '.permissions.deny | length' "$C/settings.json") / ask $(jq '.permissions.ask | length' "$C/settings.json") / allow $(jq '.permissions.allow | length' "$C/settings.json")"
+
+# --- GitHub Copilot 用(.github。tools/make-copilot.py で .claude から作る)
+python3 "$ROOT/tools/make-copilot.py" --check >/dev/null || ng ".github/agents か copilot-instructions.md が古い(python3 tools/make-copilot.py を動かす)"
+n=0
+for f in "$ROOT"/.github/agents/*.agent.md; do
+  n=$((n+1))
+  [ -n "$(fm "$f" description)" ] || ng "$f: description が無い(Copilot では必須)"
+  for s in $(grep -o '\.claude/skills/[^/]*/SKILL.md' "$f"); do [ -f "$ROOT/$s" ] || ng "$f: $s が無い"; done
+done
+echo "Copilot のエージェント: $n 本"
+H="$ROOT/.github/hooks/cs-hooks.json"
+jq -e '.version == 1' "$H" >/dev/null 2>&1 || ng "cs-hooks.json が JSON として読めないか、version が 1 でない"
+while read -r name; do
+  [ -f "$C/hooks/$name.sh" ] && [ -f "$C/hooks/$name.ps1" ] || ng "cs-hooks.json が呼ぶ $name の .sh か .ps1 が無い"
+done < <(jq -r '.hooks[][] | .bash | split(" ") | last' "$H")
+[ "$(jq -c '[.hooks | to_entries[] | .key as $e | .value[] | "\($e):\(.bash | split(" ") | last)"]' "$H")" = \
+  "$(jq -c '[.hooks | to_entries[] | .key as $e | .value[] | "\($e):\(.powershell | split(" ") | last)"]' "$H")" ] || ng "cs-hooks.json の bash と powershell で呼ぶものが違う"
+[ "$(head -c 3 "$ROOT/.github/hooks/copilot-adapter.ps1" | od -An -tx1 | tr -d ' ')" = "efbbbf" ] || ng "copilot-adapter.ps1 が BOM 付き UTF-8 でない"
+bash -n "$ROOT/.github/hooks/copilot-adapter.sh" || ng "copilot-adapter.sh に文法エラー"
+echo "Copilot の hooks: $(jq '[.hooks[][]] | length' "$H") 本"
 
 [ "$err" = 0 ] && echo "すべて OK" || { echo "NG が $err 件"; exit 1; }

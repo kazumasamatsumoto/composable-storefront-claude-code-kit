@@ -9,6 +9,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - **コストの集計(cs-cost)**: 依頼を 1 件終えるたびに、本会話と担当(サブエージェント)が使ったトークン数と、API 料金に換算した金額を表にして報告に付け、`docs/cost-log.csv` に 1 行足します。CLAUDE.md と、Bash を持つ 10 人の担当の定義に「終わるときに実行する」と書いてあります
 - **hooks(.claude/hooks と .claude/settings.json)4 本**: 危険なコマンドを止める、秘密と標準ソースへの書き込みを止める、編集後に案件のルールで検査する、会話の最初にリポジトリの種類を伝える。**bash 版(.sh)と PowerShell 版(.ps1)の 2 組**があり、中身は同じです
 - **権限ルール(.claude/settings.json の permissions)**: 禁止(deny)、毎回確認(ask)、聞かずに許す(allow)の 3 つのリスト。hooks と違い Claude Code 自身が止めます。秘密のファイルを読むこと、標準ソースと node_modules・dist への書き込み、`ant initialize`、パッケージの公開を禁止し、`git push` / `git reset` / `git clean` と外へのダウンロードは毎回聞きます。git の閲覧、npm の build・test・lint、コストの集計スクリプトは聞かずに許します
+- **GitHub Copilot 用(.github)**: 同じ 13 人を Copilot のカスタムエージェント(`.github/agents/*.agent.md`)に、CLAUDE.md を `.github/copilot-instructions.md` にしたもの。`tools/make-copilot.py` が .claude から作るので、直すのは .claude 側だけ。スキルは Copilot が `.claude/skills` をそのまま読む。hooks は `.github/hooks/cs-hooks.json` から同じ `.claude/hooks` のスクリプトを呼ぶ
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
 - **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
 
@@ -33,6 +34,11 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 │   ├── hooks/                    … 4 本 × 2 組(*.sh は bash 版、*.ps1 は PowerShell 版)
 │   ├── settings.json             … 権限ルール(permissions)と、どのイベントでどの hook を動かすか(bash 版を呼ぶ)
 │   └── settings.powershell.json  … 同じ権限ルールで、hooks は PowerShell 版を呼ぶ(Windows で使うときに settings.json と置き換える)
+├── .github/
+│   ├── agents/*.agent.md         … Copilot のカスタムエージェント 13 人(tools/make-copilot.py が .claude/agents から作る)
+│   ├── copilot-instructions.md   … Copilot への指示(同じく CLAUDE.md から作る)
+│   └── hooks/                    … cs-hooks.json と、.claude/hooks を呼ぶ橋渡し(copilot-adapter.sh / .ps1)
+├── tools/make-copilot.py         … Copilot 用のファイルを作る(--check で古くないかを確かめる)
 ├── playground/
 │   ├── storefront/               … 送料無料バッジの部品(出発点)、翻訳ファイル、ダミーの .env
 │   └── core-customize/hybris/bin/
@@ -43,6 +49,7 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 │   ├── hooks/run.sh              … bash 版に JSON を与えて、止める・通すを確かめる
 │   ├── hooks/run.ps1             … PowerShell 版を同じケースで確かめる
 │   ├── transcribe/               … 文字起こしのテスト(見本の .pptx / .xlsx と、期待する Markdown)
+│   ├── copilot/run.sh / run.ps1  … Copilot の橋渡しに hooks のケースを全部通す
 │   ├── cost/run.sh               … コストの集計に作り物の会話記録を読ませ、数と金額を確かめる
 │   └── validate-kit.sh           … name と description、skills の参照先、hooks の実行権限を確かめる
 └── docs/
@@ -196,6 +203,27 @@ cs-docs が cs-office-transcribe で `docs/transcripts/` に Markdown を書き�
 - **Bash を持たない担当**: cs-architect、cs-content-i18n、cs-pdm は自分では数えられないので、本会話が報告を受け取ったあとに数えます。
 
 最初から全部入れる必要はありません。まず `cs-frontend` と 2 本のスキル(`cs-component-customization`、`cs-occ-endpoint-and-mock`)と hooks だけ入れて、呼ばれ方を確かめてから増やすのがおすすめです。
+
+## GitHub Copilot で使う
+
+このリポジトリには、同じ担当・手順書・hooks を GitHub Copilot で使うためのファイルも入っています(Copilot CLI、Copilot app、クラウドエージェント、VS Code のエージェントモード)。
+
+| Claude Code | GitHub Copilot | どう作っているか |
+|---|---|---|
+| `.claude/agents/*.md`(13 人) | `.github/agents/*.agent.md` | `python3 tools/make-copilot.py` で作る。`skills:` の代わりに、本文の先頭に「最初に読む手順書」を書く |
+| `CLAUDE.md` | `.github/copilot-instructions.md` | 同じスクリプトで作る。cs-cost の行は「報告に書くこと」に置き換える |
+| `.claude/skills/` | そのまま | Copilot は `.claude/skills` を読む(公式 About agent skills) |
+| `.claude/settings.json` の hooks | `.github/hooks/cs-hooks.json` | イベント名を `PreToolUse` などで書くと、Copilot は Claude Code と同じ形の入力を渡す(公式 hooks reference)。返し方だけを `copilot-adapter.sh` / `.ps1` で直す |
+| `.claude/settings.json` の permissions | なし | Copilot には同じ形の設定ファイルが無い。止める本体は hooks。組織では企業管理設定(managed-settings.json)の permissions を使う |
+| cs-cost | なし | Copilot の使用量は、組織の使用状況メトリクスと AI クレジットの請求で見る |
+
+- **直す場所は .claude 側だけ**です。直したら `python3 tools/make-copilot.py` を動かし、できたファイルもコミットします。古いままだと `bash tests/validate-kit.sh` が NG を出します。
+- **Copilot の hooks の違い**:
+  - 道具を使う前の hook が時間切れになると、Copilot は止めずに通します(公式)。既定の 30 秒に収まるようにしてあります。
+  - クラウドエージェントでは Linux の中で bash 版だけが動き、`jq` が要ります。入っているかは確かめていません(未確認)。
+- **Copilot CLI は `.claude/settings.json` の hooks も読みます**(公式)。そのため CLI では同じ検査が 2 回動きますが、どちらも同じ規則なので結果は変わりません。CLAUDE_PROJECT_DIR が無くても動くように、`.claude/settings.json` のパスは `${CLAUDE_PROJECT_DIR:-.}` にしてあります。
+- **Copilot がファイルの場所を渡す項目の名前**は確かめていません(未確認)。橋渡しは `file_path` が無ければ `path` を使います。
+- 確かめ方: `bash tests/copilot/run.sh`(PowerShell 版は `tests\copilot\run.ps1`)。hooks のケース 71 件を Copilot の形に直して通します。
 
 ## 注意
 

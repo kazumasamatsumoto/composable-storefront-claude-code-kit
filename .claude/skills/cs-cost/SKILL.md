@@ -1,6 +1,6 @@
 ---
 name: cs-cost
-description: いま進めている会話で使ったトークン数(入力・キャッシュ書き込み・キャッシュ読み込み・出力)と、API 料金に換算した金額を集計し、報告に付けて CSV に記録する手順。依頼を 1 件終えて報告するとき、担当(サブエージェント)が作業を終えるとき、見積もりの実績を取るときに使う。
+description: Claude Code 専用(GitHub Copilot では会話の記録の場所と形が違うので使わない)。いま進めている会話で使ったトークン数(入力・キャッシュ書き込み・キャッシュ読み込み・出力)と、API 料金に換算した金額を集計し、報告に付けて CSV に記録する手順。依頼を 1 件終えて報告するとき、担当(サブエージェント)が作業を終えるとき、見積もりの実績を取るときに使う。
 allowed-tools: Bash(node .claude/skills/cs-cost/scripts/cost.mjs *), PowerShell(node .claude/skills/cs-cost/scripts/cost.mjs *)
 ---
 

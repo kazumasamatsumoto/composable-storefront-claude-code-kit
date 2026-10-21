@@ -18,6 +18,11 @@ jobs:
         run: bash tests/transcribe/run.sh
       - name: コストの集計(cs-cost)
         run: bash tests/cost/run.sh
+      - name: Copilot の hooks の橋渡し(bash 版)
+        run: bash tests/copilot/run.sh
+      - name: Copilot の hooks の橋渡し(PowerShell 版)を PowerShell 7 で
+        shell: pwsh
+        run: ./tests/copilot/run.ps1
       - name: 文字起こし(PowerShell 版)を PowerShell 7 で
         shell: pwsh
         run: ./tests/transcribe/run.ps1
@@ -46,3 +51,9 @@ jobs:
       - name: コストの集計(cs-cost)を Windows で
         shell: bash
         run: bash tests/cost/run.sh
+      - name: Copilot の hooks の橋渡し(PowerShell 版)を Windows PowerShell 5.1 で
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests\copilot\run.ps1
+      - name: Copilot の hooks の橋渡し(bash 版)を Git Bash で
+        shell: bash
+        run: bash tests/copilot/run.sh
