@@ -28,5 +28,3 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(npx ng test *), Bash(yarn tes
 
 ## 5. 契約テスト
 - 応答の形(必須項目と型)を検証するテストを 1 件書く。OCC 側が変わったら最初に落ちる
-
-詳しくは https://learn-sap-commerce.vercel.app/learn/composable-storefront/06-data-flow-occ-ngrx 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/11-msw-mock-foundation

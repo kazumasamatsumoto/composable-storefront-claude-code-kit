@@ -33,5 +33,3 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(npx ng test *), Bash(yarn tes
 - 文言は翻訳キー。aria 属性とキーボード操作を確認
 - ユニットテスト: 入力データがあるとき / 無いときの 2 件
 - 報告: 変更ファイル、設定の差分、CMS 側で必要な作業(新しい typeCode を使うなら ImpEx か SmartEdit)
-
-詳しい手順と図は https://learn-sap-commerce.vercel.app/learn/composable-storefront/12-custom-components-and-outlets

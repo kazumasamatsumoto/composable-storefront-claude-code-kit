@@ -27,4 +27,3 @@ ID: CS-123
 
 ## 受入条件からテストへ
 - AC の番号を E2E テストのファイル名か describe 名に残す(cs-e2e-flow)
-- お客様に書いてもらう場合の依頼の仕方: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/03-customer-authored-test-cases

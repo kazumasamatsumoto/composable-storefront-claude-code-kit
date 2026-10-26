@@ -30,5 +30,3 @@ allowed-tools: Read, Grep, Glob, Write, Bash(git log *), Bash(git diff *)
 ## 4. 切り戻し
 - 判断基準(エラー率、主要フローの失敗)を数値で先に決める
 - 前回成功ビルドを再デプロイする手順を書く。CMS コンテンツを戻す必要があるかも書く
-
-参考: https://learn-sap-commerce.vercel.app/learn/cloud-portal 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/09-upgrade-and-operations

@@ -28,5 +28,3 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(npx cypress *), Bash(npx play
 
 ## 5. 報告
 - 要件 ID → テスト ID → ファイル名の表、実行結果、未カバーの受入条件
-
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/11-msw-mock-foundation

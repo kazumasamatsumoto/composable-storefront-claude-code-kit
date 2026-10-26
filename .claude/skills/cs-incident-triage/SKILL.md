@@ -23,7 +23,7 @@ allowed-tools: Read, Grep, Glob
 ## 3. どこを見るか
 - ストアフロント: ブラウザのコンソールとネットワーク。SSR のログ(Cloud Portal のログ検索)
 - OCC: 応答コードと `errors` 本文。Commerce 側のログ
-- 連携: Integration Suite が絡むなら、https://learn-sap-commerce.vercel.app/learn/cloud-integration/06-operations-monitoring-and-troubleshooting の 3 か所の切り分け
+- 連携: Integration Suite が絡むなら、Integration Suite 側のメッセージ処理ログも見て切り分ける
 
 ## 4. 一次対応の候補(人が判断して実行)
 - 直前のリリースの切り戻し

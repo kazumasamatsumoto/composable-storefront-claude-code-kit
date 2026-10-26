@@ -28,5 +28,3 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(ant *)
 ## 4. 本番への反映
 - 本番の更新は Cloud Portal のデプロイ時の設定で行う。手順と「どのデータを流すか」を書き、実行は人に依頼する
 - チェック: 本番で initialize を選ぶ手順になっていない
-
-詳しくは https://learn-sap-commerce.vercel.app/learn/commerce-cloud/13-hands-on-attribute-to-occ 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/05-impex-and-flexiblesearch 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/04-type-system-and-items-xml

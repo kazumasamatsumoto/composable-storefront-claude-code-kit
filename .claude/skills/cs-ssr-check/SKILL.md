@@ -27,4 +27,4 @@ allowed-tools: Read, Grep, Glob, Bash(yarn build:ssr *), Bash(yarn serve:ssr *),
 ## 5. 報告
 - 対象 URL、TTFB、HTML に主要内容が含まれるか、OCC 呼び出し回数、見つけた問題と直し方
 
-CCv2 では manifest の `ssr.enabled` が true のときに `yarn build:ssr` が走る。詳しくは https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance
+CCv2 では manifest の `ssr.enabled` が true のときに `yarn build:ssr` が走る。

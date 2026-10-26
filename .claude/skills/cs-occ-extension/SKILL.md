@@ -54,5 +54,3 @@ allowed-tools: Read, Grep, Glob, Edit, Write, Bash(ant *)
 ## 7. 引き渡す
 - 変えた端点と項目、fields のレベル、認可を一覧にし、cs-occ-liaison に OpenAPI の更新を伝える(ストアフロントの型、MSW モック、契約テストの更新のため)
 - 新しいストアフロントのドメインがあるなら、本番 CORS(corsfilter.commercewebservices.*)の変更手順を運用手順に足す。本番で * にしない
-
-詳しくは https://learn-sap-commerce.vercel.app/learn/commerce-cloud/15-exposing-features-as-occ-api 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/13-hands-on-attribute-to-occ

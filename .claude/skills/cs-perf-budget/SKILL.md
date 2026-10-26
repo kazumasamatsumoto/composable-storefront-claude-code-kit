@@ -30,5 +30,3 @@ allowed-tools: Read, Grep, Glob, Edit, Bash(yarn build *), Bash(npx ng build *),
 
 ## 5. 報告
 - 予算表、計測表(前後)、変更内容、残課題
-
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance

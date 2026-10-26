@@ -13,8 +13,6 @@ SAP Commerce Cloud の Composable Storefront(Spartacus / Angular)案件で、Cla
 - **playground/**: 手を動かして試すための断片(ストアフロントの部品 1 つ、SAP Commerce の items.xml と ImpEx)。**ビルドはできません**
 - **tests/**: hooks のテスト(71 件。bash 版と PowerShell 版で同じケース)と、定義ファイルの検査。GitHub Actions が Linux と Windows で毎回動かします
 
-解説: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/13-composable-storefront-agents-and-skills-kit
-
 ## 必要なもの
 
 - [Claude Code](https://code.claude.com/docs/en/overview)
@@ -191,7 +189,6 @@ cs-docs が cs-office-transcribe で `docs/transcripts/` に Markdown を書き�
 - **Read の deny の範囲**: 同じパスへの Edit と Write も止めます(公式 Permissions)。
 - **限界**: 権限ルールもコマンドの文字列を見ているので、書き方を変えると一致しません。公式も「セキュリティの境界ではない」と書いています。守りの本体はサンドボックスです。
 - **サンドボックスの入れ方**: リポジトリの設定ではなく、各自のユーザー設定(`~/.claude/settings.json`)に人が入れます。Mac・Linux・WSL2 で使えますが、Windows ネイティブでは使えません。
-- **解説**: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/14-permission-rules-and-sandbox
 - **未確認**: Mac で Claude Code が PowerShell の道具を持たない場合に、`PowerShell(...)` のルールに起動時の警告が出るかどうかは確かめていません。警告が出ても、ルールが効かなくなるだけで害はありません(推論)。
 
 ### コストの集計について

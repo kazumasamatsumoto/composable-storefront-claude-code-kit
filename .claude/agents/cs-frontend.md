@@ -40,5 +40,3 @@ maxTurns: 60
 
 ## 終わるとき
 - 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-frontend: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
-
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/12-custom-components-and-outlets 、 https://learn-sap-commerce.vercel.app/learn/composable-storefront/06-data-flow-occ-ngrx

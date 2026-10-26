@@ -36,5 +36,3 @@ tools: ["Read", "Grep", "Glob", "Write", "Edit", "Bash", "PowerShell"]
 ## 終わるとき
 - 報告の最後に、変更したファイル、確かめたこと、確かめていないことを書く。
 - 使用量は数えなくてよい(GitHub Copilot の使用量は、組織の使用状況メトリクスと AI クレジットの請求で見る。cs-cost は Claude Code 専用)。
-
-参考: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/13-composable-storefront-agents-and-skills-kit

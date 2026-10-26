@@ -40,5 +40,3 @@ user-invocable: false
 - F1 manifest.json の変更に理由とリリース手順がある
 - F2 OCC の URL をハードコードしていない(`OCC_BACKEND_BASE_URL_VALUE`)
 - F3 CMS で変えられるものをコードに埋めていない
-
-参考: https://learn-sap-commerce.vercel.app/learn/ai-driven-development/06-reviewing-ai-generated-deliverables

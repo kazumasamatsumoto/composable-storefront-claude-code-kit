@@ -29,5 +29,3 @@ maxTurns: 40
 
 ## 終わるとき
 - 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-performance: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
-
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/07-ssr-pwa-performance

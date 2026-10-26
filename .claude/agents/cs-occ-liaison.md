@@ -26,5 +26,3 @@ maxTurns: 40
 
 ## 終わるとき
 - 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-occ-liaison: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
-
-参考: https://learn-sap-commerce.vercel.app/learn/commerce-cloud/09-occ-api-and-dev-workflow 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/17-addon-vs-occ-api

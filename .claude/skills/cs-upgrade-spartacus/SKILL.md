@@ -27,5 +27,3 @@ allowed-tools: Read, Grep, Glob, Edit, Bash(git status *), Bash(git diff *), Bas
 ## 5. 報告
 - 変更点、手で直した箇所、残課題、切り戻し手順(ブランチと lock ファイル)
 - 本番反映は cs-ccv2-release の手順へ
-
-参考: https://learn-sap-commerce.vercel.app/learn/composable-storefront/09-upgrade-and-operations

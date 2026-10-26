@@ -37,5 +37,3 @@ maxTurns: 60
 
 ## 終わるとき
 - 報告を返す直前に、cs-cost の手順で `node .claude/skills/cs-cost/scripts/cost.mjs --label "cs-backend: <作業の名前>"` を実行し、出た表を報告の最後に付ける。
-
-参考: https://learn-sap-commerce.vercel.app/learn/commerce-cloud/13-hands-on-attribute-to-occ 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/15-exposing-features-as-occ-api 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/09-occ-api-and-dev-workflow

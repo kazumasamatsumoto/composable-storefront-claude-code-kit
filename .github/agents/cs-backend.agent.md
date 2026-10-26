@@ -38,5 +38,3 @@ tools: ["Read", "Grep", "Glob", "Edit", "Write", "Bash"]
 ## 終わるとき
 - 報告の最後に、変更したファイル、確かめたこと、確かめていないことを書く。
 - 使用量は数えなくてよい(GitHub Copilot の使用量は、組織の使用状況メトリクスと AI クレジットの請求で見る。cs-cost は Claude Code 専用)。
-
-参考: https://learn-sap-commerce.vercel.app/learn/commerce-cloud/13-hands-on-attribute-to-occ 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/15-exposing-features-as-occ-api 、 https://learn-sap-commerce.vercel.app/learn/commerce-cloud/09-occ-api-and-dev-workflow
